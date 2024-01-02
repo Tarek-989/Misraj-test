@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Dashboard, LoginPage } from './components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const App: React.FC = () => {
@@ -11,6 +14,7 @@ const App: React.FC = () => {
 
 	return (
 		<Router>
+			<ToastContainer />
 			<Routes>
 				<Route path='/login' element={isAuthenticated ? <Navigate to='/posts' /> : <LoginPage onLogin={onLogin} />} />
 				<Route path='/posts' element={!isAuthenticated ? <Navigate to='/login' /> : <Dashboard />} />
