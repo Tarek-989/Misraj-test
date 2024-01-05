@@ -88,7 +88,7 @@ export const PostTable: React.FC = () => {
                 separator={<NavigateNext fontSize="medium" />}
             >
                 <Link
-                    href="/posts"
+                    href="#"
                     underline="none"
                     sx={{
                         fontFamily: "Poppins",
@@ -99,7 +99,7 @@ export const PostTable: React.FC = () => {
                     Posts
                 </Link>
                 <Link
-                    href="/posts"
+                    href="#"
                     underline="none"
                     aria-current="page"
                     sx={{
