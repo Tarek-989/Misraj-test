@@ -4,7 +4,7 @@ import client from '../apolloClient';
 import { CREATE_POST } from '../queries';
 import { TProps } from '../types';
 
-export const useCreatePost = ({ page = 1 }: TProps) => {
+export const useCreatePost = ({ page }: TProps) => {
     const queryClient = useQueryClient();
 
     return useMutation(

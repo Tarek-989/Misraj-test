@@ -185,7 +185,7 @@ export const Header: React.FC = () => {
 			</AppBar>
 			{renderMobileMenu}
 			{renderMenu}
-			<PostDialog open={openCreate} handleClose={handleClose} type={'Create'} />
+			<PostDialog open={openCreate} handleClose={handleClose} type={'Create'} page={1} />
 		</Box>
 	)
 }
