@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useCreatePost, useUpdatePost } from '../hooks';
-import { useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
 export const PostDialog: React.FC<PostDialogProps> = ({ open, handleClose, type, data, page }) => {
@@ -24,7 +23,6 @@ export const PostDialog: React.FC<PostDialogProps> = ({ open, handleClose, type,
 
 	const EditMutation = useUpdatePost({ page })
 	const CreateMutation = useCreatePost({ page })
-	const queryClient = useQueryClient();
 
 	const onSubmit: SubmitHandler<PostDialogForm> = async (values) => {
 		if (data) {
@@ -35,7 +33,6 @@ export const PostDialog: React.FC<PostDialogProps> = ({ open, handleClose, type,
 				},
 			}, {
 				onSuccess: () => {
-					queryClient.invalidateQueries(['posts', page]);
 					handleClose();
 					toast.success('Updated successfully!');
 				},
@@ -48,7 +45,6 @@ export const PostDialog: React.FC<PostDialogProps> = ({ open, handleClose, type,
 				}
 			}, {
 				onSuccess: () => {
-					queryClient.invalidateQueries(['posts', page]);
 					handleClose();
 					toast.success('Created successfully!');
 				},

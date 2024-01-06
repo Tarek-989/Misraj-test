@@ -10,33 +10,30 @@ export const useCreatePost = ({ page }: TProps) => {
     return useMutation(
         (newPostData: any) => {
             return client.mutate({
-            mutation: CREATE_POST,
-            variables: newPostData,
-        })},
+                mutation: CREATE_POST,
+                variables: newPostData,
+            })
+        },
         {
             onMutate: async (newPost) => {
                 await queryClient.cancelQueries(['posts', page]);
 
-                const previousPosts = queryClient.getQueryData(['posts', page]);
-
-                queryClient.setQueryData(['posts', page], (oldQueryData: any) => {
+                const newposts = queryClient.setQueryData(['posts', page], (oldQueryData: any) => {
 
                     return {
                         ...oldQueryData,
                         data: [
+                            {
+                                ...oldQueryData.data[0],
+                                id: Math.random().toString()[0],
+                                title: newPost.input.title,
+                            },
                             ...oldQueryData.data,
-                            { ...newPost, id: Math.random().toString() },
                         ],
                     };
                 });
 
-                return { previousPosts };
-            },
-            onError: (_err, _newPost, context) => {
-                queryClient.setQueryData(['posts', page], context?.previousPosts);
-            },
-            onSettled: () => {
-                queryClient.invalidateQueries(['posts', page]);
+                return { newposts };
             },
         }
     );
