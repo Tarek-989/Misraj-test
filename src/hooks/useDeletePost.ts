@@ -2,7 +2,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import client from "../apolloClient";
 import { DELETE_POST } from "../queries";
-import { TProps } from "../types";
+import { Posts, TProps } from "../types";
 
 export const useDeletePost = ({ page }: TProps) => {
     const queryClient = useQueryClient();
@@ -17,25 +17,14 @@ export const useDeletePost = ({ page }: TProps) => {
             onMutate: async (deletedPostId) => {
                 await queryClient.cancelQueries(['posts', page]);
 
-                const previousPosts = queryClient.getQueryData(['posts', page]);
-
-                queryClient.setQueryData(['posts', page], (old: any) => {
+                const newPosts = queryClient.setQueryData(['posts', page], (old: any) => {
                     return {
                         ...old,
-                        posts: {
-                            ...old.data,
-                            data: old.data.filter((post: any) => post.id !== deletedPostId)
-                        }
+                        data: old.data.filter((post: Posts) => post.id !== deletedPostId)
                     };
                 });
 
-                return { previousPosts };
-            },
-            onError: (_err, _variables, context) => {
-                queryClient.setQueryData(['posts', page], context?.previousPosts);
-            },
-            onSettled: () => {
-                queryClient.invalidateQueries(['posts', page]);
+                return { newPosts };
             },
         }
     );

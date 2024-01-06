@@ -2,18 +2,15 @@ import React from 'react'
 import { DeleteDialogProps } from '../types'
 import { Box, Button, Dialog, DialogContent, IconButton, Typography } from '@mui/material'
 import { useDeletePost } from '../hooks'
-import { useQueryClient } from 'react-query'
 import { toast } from 'react-toastify';
 import { Close } from '@mui/icons-material'
 
 
 export const DeleteDialog: React.FC<DeleteDialogProps> = ({ open, handleClose, data, page }) => {
     const deleteMutation = useDeletePost({page})
-    const queryClient = useQueryClient();
     const handleSubmit = () => {
         deleteMutation.mutate(data?.id, {
             onSuccess: () => {
-                queryClient.invalidateQueries(['posts', page]);
                 handleClose();
                 toast.success('Deleted successfully!');
             },
